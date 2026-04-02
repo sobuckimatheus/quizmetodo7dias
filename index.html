@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz - Método 7 Dias</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .quiz-container {
+      background: #fff;
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    h1 { text-align: center; color: #2d3748; margin-bottom: 8px; }
+    .subtitle { text-align: center; color: #718096; margin-bottom: 30px; font-size: 14px; }
+    .question-block { display: none; }
+    .question-block.active { display: block; }
+    .question-text { font-size: 18px; color: #2d3748; margin-bottom: 20px; font-weight: 600; }
+    .options { display: flex; flex-direction: column; gap: 12px; }
+    .option {
+      padding: 14px 18px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #4a5568;
+      font-size: 15px;
+    }
+    .option:hover { border-color: #667eea; background: #ebf4ff; }
+    .option.selected { border-color: #667eea; background: #667eea; color: #fff; }
+    .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; }
+    button {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn-next { background: #667eea; color: #fff; margin-left: auto; }
+    .btn-next:hover { background: #5a67d8; }
+    .btn-prev { background: #e2e8f0; color: #4a5568; }
+    .btn-prev:hover { background: #cbd5e0; }
+    .progress { text-align: right; color: #718096; font-size: 13px; margin-bottom: 16px; }
+    .result { display: none; text-align: center; }
+    .result h2 { color: #2d3748; font-size: 24px; margin-bottom: 12px; }
+    .result p { color: #718096; font-size: 16px; margin-bottom: 24px; }
+    .score { font-size: 48px; font-weight: 700; color: #667eea; margin-bottom: 8px; }
+    .btn-restart { background: #667eea; color: #fff; }
+    .btn-restart:hover { background: #5a67d8; }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Método 7 Dias</h1>
+    <p class="subtitle">Descubra seu nível de conhecimento</p>
+    <div class="progress" id="progress">Pergunta 1 de 5</div>
+
+    <div class="question-block active" data-index="0">
+      <p class="question-text">1. Qual é o principal objetivo do Método 7 Dias?</p>
+      <div class="options">
+        <div class="option" onclick="selectAnswer(this, 0)">Aprender um novo hábito em uma semana</div>
+        <div class="option" onclick="selectAnswer(this, 1)">Emagrecer rapidamente</div>
+        <div class="option" onclick="selectAnswer(this, 2)">Organizar a rotina diária</div>
+        <div class="option" onclick="selectAnswer(this, 3)">Melhorar a produtividade no trabalho</div>
+      </div>
+    </div>
+
+    <div class="question-block" data-index="1">
+      <p class="question-text">2. Quantos dias dura o programa completo?</p>
+      <div class="options">
+        <div class="option" onclick="selectAnswer(this, 0)">5 dias</div>
+        <div class="option" onclick="selectAnswer(this, 1)">7 dias</div>
+        <div class="option" onclick="selectAnswer(this, 2)">10 dias</div>
+        <div class="option" onclick="selectAnswer(this, 3)">14 dias</div>
+      </div>
+    </div>
+
+    <div class="question-block" data-index="2">
+      <p class="question-text">3. Qual é a chave para manter a consistência durante os 7 dias?</p>
+      <div class="options">
+        <div class="option" onclick="selectAnswer(this, 0)">Disciplina e foco diário</div>
+        <div class="option" onclick="selectAnswer(this, 1)">Motivação constante</div>
+        <div class="option" onclick="selectAnswer(this, 2)">Ter um parceiro</div>
+        <div class="option" onclick="selectAnswer(this, 3)">Recompensas ao final de cada dia</div>
+      </div>
+    </div>
+
+    <div class="question-block" data-index="3">
+      <p class="question-text">4. O que você deve fazer no primeiro dia do método?</p>
+      <div class="options">
+        <div class="option" onclick="selectAnswer(this, 0)">Definir metas claras</div>
+        <div class="option" onclick="selectAnswer(this, 1)">Começar imediatamente sem planejar</div>
+        <div class="option" onclick="selectAnswer(this, 2)">Assistir vídeos motivacionais</div>
+        <div class="option" onclick="selectAnswer(this, 3)">Descansar para ter energia</div>
+      </div>
+    </div>
+
+    <div class="question-block" data-index="4">
+      <p class="question-text">5. Qual resultado é esperado ao final dos 7 dias?</p>
+      <div class="options">
+        <div class="option" onclick="selectAnswer(this, 0)">Transformação completa de vida</div>
+        <div class="option" onclick="selectAnswer(this, 1)">Uma base sólida para continuar evoluindo</div>
+        <div class="option" onclick="selectAnswer(this, 2)">Domínio total do assunto</div>
+        <div class="option" onclick="selectAnswer(this, 3)">Nenhuma mudança significativa</div>
+      </div>
+    </div>
+
+    <div class="result" id="result">
+      <h2>Quiz Concluído!</h2>
+      <div class="score" id="score-display"></div>
+      <p id="result-message"></p>
+      <button class="btn-restart" onclick="restart()">Tentar Novamente</button>
+    </div>
+
+    <div class="nav-buttons" id="nav-buttons">
+      <button class="btn-prev" id="btn-prev" onclick="prev()" style="display:none">Anterior</button>
+      <button class="btn-next" id="btn-next" onclick="next()">Próxima</button>
+    </div>
+  </div>
+
+  <script>
+    const totalQuestions = 5;
+    const correctAnswers = [0, 1, 0, 0, 1];
+    let current = 0;
+    let answers = new Array(totalQuestions).fill(null);
+
+    function selectAnswer(el, index) {
+      const block = document.querySelector('.question-block.active');
+      block.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      answers[current] = index;
+    }
+
+    function updateProgress() {
+      document.getElementById('progress').textContent = `Pergunta ${current + 1} de ${totalQuestions}`;
+    }
+
+    function next() {
+      if (answers[current] === null) { alert('Por favor, selecione uma resposta.'); return; }
+      if (current < totalQuestions - 1) {
+        document.querySelectorAll('.question-block')[current].classList.remove('active');
+        current++;
+        document.querySelectorAll('.question-block')[current].classList.add('active');
+        updateProgress();
+        document.getElementById('btn-prev').style.display = 'inline-block';
+        if (current === totalQuestions - 1) document.getElementById('btn-next').textContent = 'Ver Resultado';
+      } else {
+        showResult();
+      }
+    }
+
+    function prev() {
+      if (current > 0) {
+        document.querySelectorAll('.question-block')[current].classList.remove('active');
+        current--;
+        document.querySelectorAll('.question-block')[current].classList.add('active');
+        updateProgress();
+        document.getElementById('btn-next').textContent = 'Próxima';
+        if (current === 0) document.getElementById('btn-prev').style.display = 'none';
+      }
+    }
+
+    function showResult() {
+      document.querySelectorAll('.question-block').forEach(b => b.classList.remove('active'));
+      document.getElementById('nav-buttons').style.display = 'none';
+      document.getElementById('progress').style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+      let score = answers.filter((ans, i) => ans === correctAnswers[i]).length;
+      document.getElementById('score-display').textContent = `${score}/${totalQuestions}`;
+      document.getElementById('result-message').textContent =
+        score >= 4 ? 'Excelente! Você domina o Método 7 Dias!' :
+        score >= 2 ? 'Bom trabalho! Continue estudando o método.' :
+        'Revise o conteúdo e tente novamente!';
+    }
+
+    function restart() {
+      current = 0;
+      answers = new Array(totalQuestions).fill(null);
+      document.querySelectorAll('.question-block').forEach(b => {
+        b.classList.remove('active');
+        b.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      });
+      document.querySelectorAll('.question-block')[0].classList.add('active');
+      document.getElementById('result').style.display = 'none';
+      document.getElementById('nav-buttons').style.display = 'flex';
+      document.getElementById('progress').style.display = 'block';
+      document.getElementById('btn-prev').style.display = 'none';
+      document.getElementById('btn-next').textContent = 'Próxima';
+      updateProgress();
+    }
+  </script>
+</body>
+</html>
